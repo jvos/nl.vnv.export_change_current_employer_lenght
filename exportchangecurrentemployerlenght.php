@@ -136,3 +136,40 @@ function exportchangecurrentemployerlenght_civicrm_preProcess($formName, &$form)
 }
 
 */
+
+function exportchangecurrentemployerlenght_civicrm_buildForm($formName, &$form) {
+  if('CRM_Export_Form_Map' == $formName){
+    CRM_Core_Session::setStatus('Als je het veld "Huidige werkgever" wilt gebruiken en de volledige naam wilt hebben (128 karakters lang) dan moet u de het veld "Interne contactnummer" toevoegen !', 'Huidige werkgever', 'alert');
+  }
+}
+
+function exportchangecurrentemployerlenght_civicrm_export(&$exportTempTable, &$headerRows, &$sqlColumns, &$exportMode){
+  if(isset($sqlColumns['current_employer']) and isset($sqlColumns['civicrm_primary_id'])){
+    $query = "ALTER TABLE ".$exportTempTable." MODIFY current_employer VARCHAR(128)";     
+    CRM_Core_DAO::executeQuery($query);
+    
+    $query = "SELECT * FROM $exportTempTable";
+    $dao = CRM_Core_DAO::executeQuery($query);
+    while ($dao->fetch()) {
+      try {
+        $params = array(
+        'version' => 3,
+        'sequential' => 1,
+        'contact_id' => $dao->civicrm_primary_id,
+      );
+      $result = civicrm_api('Contact', 'getsingle', $params);
+
+      } catch (CiviCRM_API3_Exception $ex) {
+        throw new Exception('Could not find setting, '
+          . 'error from Setting getsingle: '.$ex->getMessage());
+      }
+      
+      if(!$result['is_error']){
+        if(isset($result['current_employer']) and !empty($result['current_employer'])){
+          $query = "UPDATE ".$exportTempTable." SET current_employer = '" . mysql_real_escape_string($result['current_employer']) . "' WHERE civicrm_primary_id = '" . $result['contact_id'] . "'";     
+          CRM_Core_DAO::executeQuery($query);
+        }
+      }
+    }
+  }
+}
