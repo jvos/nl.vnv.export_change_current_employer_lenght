@@ -139,7 +139,7 @@ function exportchangecurrentemployerlenght_civicrm_preProcess($formName, &$form)
 
 function exportchangecurrentemployerlenght_civicrm_buildForm($formName, &$form) {
   if('CRM_Export_Form_Map' == $formName){
-    CRM_Core_Session::setStatus('Als je het veld "Huidige werkgever" wilt gebruiken en de volledige naam wilt hebben (128 karakters lang) dan moet u de het veld "Interne contactnummer" toevoegen !', 'Huidige werkgever', 'alert');
+    CRM_Core_Session::setStatus('Als u het veld "Huidige werkgever" wilt gebruiken en de volledige naam wilt hebben (128 karakters lang) dan moet u de het veld "Interne contactnummer" toevoegen !', 'Huidige werkgever', 'alert');
   }
 }
 
