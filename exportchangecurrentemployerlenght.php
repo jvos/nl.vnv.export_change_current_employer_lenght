@@ -164,7 +164,7 @@ function exportchangecurrentemployerlenght_civicrm_export(&$exportTempTable, &$h
           . 'error from Setting getsingle: '.$ex->getMessage());
       }
       
-      if(!$result['is_error']){
+      if(!isset($result['is_error']) or !$result['is_error']){
         if(isset($result['current_employer']) and !empty($result['current_employer'])){
           $query = "UPDATE ".$exportTempTable." SET current_employer = '" . mysql_real_escape_string($result['current_employer']) . "' WHERE civicrm_primary_id = '" . $result['contact_id'] . "'";     
           CRM_Core_DAO::executeQuery($query);
