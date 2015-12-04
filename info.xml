@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <extension key="nl.vnv.exportchangecurrentemployerlenght" type="module">
   <file>exportchangecurrentemployerlenght</file>
-  <name>FIXME</name>
-  <description>FIXME</description>
+  <name>Verander lengte veld huidige werkgever in export</name>
+  <description>Verandert de lengte van het veld huidige werkgever in de contact export.</description>
   <license>AGPL-3.0</license>
   <maintainer>
     <author>Jan-Derek</author>
