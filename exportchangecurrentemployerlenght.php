@@ -138,12 +138,19 @@ function exportchangecurrentemployerlenght_civicrm_preProcess($formName, &$form)
 */
 
 function exportchangecurrentemployerlenght_civicrm_buildForm($formName, &$form) {
-  if('CRM_Export_Form_Map' == $formName){
+  /**
+   * BOS1512086 VNV - Aanpassen lengte exportveld
+   */
+  // message no longer needed
+  /*if('CRM_Export_Form_Map' == $formName){
     CRM_Core_Session::setStatus('Als u het veld "Huidige werkgever" wilt gebruiken en de volledige naam wilt hebben (128 karakters lang) dan moet u de het veld "Interne contactnummer" toevoegen !', 'Huidige werkgever', 'alert');
-  }
+  }*/
 }
 
 function exportchangecurrentemployerlenght_civicrm_export(&$exportTempTable, &$headerRows, &$sqlColumns, &$exportMode){
+  /**
+   * BOS1512086 VNV - Aanpassen lengte exportveld
+   */
   if(isset($sqlColumns['current_employer']) and isset($sqlColumns['civicrm_primary_id'])){
     $query = "ALTER TABLE ".$exportTempTable." MODIFY current_employer VARCHAR(128)";     
     CRM_Core_DAO::executeQuery($query);
